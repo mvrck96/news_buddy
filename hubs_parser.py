@@ -2,6 +2,7 @@ import requests
 import bs4 as bs
 import pandas as pd
 
+
 URL = "https://habr.com/ru/hubs/page"
 DF = pd.DataFrame(
     columns=["Title", "Link", "Description", "Raiting", "Subscriptions"])
