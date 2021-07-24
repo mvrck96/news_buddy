@@ -7,6 +7,14 @@ DF = pd.DataFrame(
     columns=["Title", "Link", "Description", "Raiting", "Subscriptions"])
 
 
+def make_nice_subs(subs: str) -> int:
+    if '.' in subs:
+        subs = subs.replace('K', '00').replace('.', '')
+    else:
+        subs = subs.replace('K', '00')
+    return int(subs)
+
+
 for i in range(1, 12):
     current_url = URL + str(i)
     page = requests.get(current_url)
@@ -25,5 +33,7 @@ for i in range(1, 12):
             "div", {"class", "tm-hubs-list__hub-subscribers"}).text.strip()
         DF = DF.append(
             dict(zip(DF.columns, [title, link, desc, raiting, subs])), ignore_index=True)
-DF['Date'] = pd.to_datetime('today').normalize()
+
+DF['Subscriptions'] = DF['Subscriptions'].apply(make_nice_subs)
+DF['Date'] = pd.to_datetime('today')
 DF.to_csv('hubs.csv', index=False)
