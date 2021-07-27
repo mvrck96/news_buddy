@@ -14,7 +14,6 @@ def habr_digest(message):
     data = habr_parser.parse_habr(top="/top/daily")
     post = habr_parser.get_md_message(data)
     bot.send_message(
-        # chat_id="@mvrck_hood",
         chat_id=message.chat.id,
         text=post,
         parse_mode=ParseMode.MARKDOWN,
@@ -29,7 +28,7 @@ def not_habr(message: str) -> bool:
 
 @bot.message_handler(func=not_habr)
 def base_reply(message):
-    bot.reply_to(
+    bot.send_message(
         chat=message.chat.id,
         text="Sorry, no supported comands except `/habr`",
         parse_mode=ParseMode.MARKDOWN,
