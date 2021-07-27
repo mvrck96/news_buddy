@@ -29,7 +29,7 @@ def not_habr(message: str) -> bool:
 @bot.message_handler(func=not_habr)
 def base_reply(message):
     bot.send_message(
-        chat=message.chat.id,
+        chat_id=message.chat.id,
         text="Sorry, no supported comands except `/habr`",
         parse_mode=ParseMode.MARKDOWN,
     )
