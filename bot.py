@@ -3,7 +3,7 @@ import habr_parser
 from telegram import ParseMode
 
 with open("token.txt", "r") as f:
-    TOKEN = f.readline()
+    TOKEN = f.readline().strip()
 
 bot = TeleBot(TOKEN)
 
