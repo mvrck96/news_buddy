@@ -39,7 +39,7 @@ def parse_habr(top="/top/daily") -> dict:
     for hub in HUBS.keys():
         link = URL + hub + top
         page = get(link)
-        soup = bs.BeautifulSoup(page.text, "lxml")
+        soup = bs.BeautifulSoup(page.text, "html.parser")
         articles_list = soup.find_all("article", {"class": "tm-articles-list__item"})
         hub_arts = list(map(get_title_and_link, articles_list))
         if hub_arts:
