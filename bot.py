@@ -24,7 +24,7 @@ def habr_digest(message):
 
 
 def not_habr(message: str) -> bool:
-    return True if message == "/habr" else False
+    return False if message == "/habr" else True
 
 
 @bot.message_handler(func=not_habr)
