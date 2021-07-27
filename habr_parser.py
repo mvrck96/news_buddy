@@ -31,12 +31,18 @@ def pretty_digest(digest: dict) -> str:
     pass
 
 
-digest = {}
-for hub in HUBS:
-    link = URL + hub + "/top/daily"
-    page = get(link)
-    soup = bs.BeautifulSoup(page.text, "lxml")
-    articles_list = soup.find_all("article", {"class": "tm-articles-list__item"})
-    hub_arts = list(map(get_title_and_link, articles_list))
-    if hub_arts:
-        digest[hub] = hub_arts
+def parse():
+    digest = {}
+    for hub in HUBS:
+        link = URL + hub + "/top/daily"
+        page = get(link)
+        soup = bs.BeautifulSoup(page.text, "lxml")
+        articles_list = soup.find_all("article", {"class": "tm-articles-list__item"})
+        hub_arts = list(map(get_title_and_link, articles_list))
+        if hub_arts:
+            digest[hub] = hub_arts
+    return digest
+
+
+if __name__ == "__main__":
+    print(parse())
