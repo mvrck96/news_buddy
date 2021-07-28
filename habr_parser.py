@@ -1,3 +1,4 @@
+from typing import Tuple, Dict
 from requests import get
 import bs4 as bs
 from datetime import date
@@ -22,19 +23,14 @@ HUBS = {
 }
 
 
-def get_title_and_link(article: str) -> list:
+def get_title_and_link(article: str) -> Tuple:
     link_wrapper = article.find("a", {"class": "tm-article-snippet__title-link"})
     link = URL[:-8] + link_wrapper["href"]
     title = link_wrapper.find("span").text
     return link, title
 
 
-def pretty_digest(digest: dict) -> str:
-    today = date.today().strftime("%d%m%y")
-    pass
-
-
-def parse_habr(top="/top/daily") -> dict:
+def parse_habr(top="/top/daily") -> Dict:
     digest = {}
     for hub in HUBS.keys():
         link = URL + hub + top
@@ -49,7 +45,7 @@ def parse_habr(top="/top/daily") -> dict:
 
 def get_md_message(digest: dict) -> str:
     today = date.today().strftime("%d.%m.%y")
-    message = f"Вечерний дайджест хабр от _{today}_\n\n\n"
+    message = f"Вечерний дайджест хабр от {today}\n\n\n"
     for key in digest:
         tmp = f"*{HUBS[key]}*\n"
         for item in digest[key]:
