@@ -24,10 +24,10 @@ def habr_digest(message) -> None:
         parse_mode=ParseMode.MARKDOWN,
         disable_web_page_preview=True,
     )
-    print("Habr digest shipped !")
+    print("Habr.com digest shipped !")
 
 
-@bot.message_handler(commands=["gazeta"])
+@bot.message_handler(commands=["rbc"])
 def gazeta_digest(message) -> None:
     digest = rbc_parser.parse_rbc()
     post = rbc_parser.get_md_message(digest)
@@ -37,10 +37,10 @@ def gazeta_digest(message) -> None:
         parse_mode=ParseMode.MARKDOWN,
         disable_web_page_preview=True,
     )
-    print("Gazeta.ru digest shipped !")
+    print("RBC.ru digest shipped !")
 
 
-@bot.message_handler(commands=["rbc"])
+@bot.message_handler(commands=["gazeta"])
 def gazeta_digest(message) -> None:
     digest = gazeta_parser.parse_gazeta()
     post = gazeta_parser.get_md_message(digest)
@@ -50,7 +50,7 @@ def gazeta_digest(message) -> None:
         parse_mode=ParseMode.MARKDOWN,
         disable_web_page_preview=True,
     )
-    print("RBC digest shipped !")
+    print("Gazeta.ru digest shipped !")
 
 
 def not_habr(message: str) -> bool:
