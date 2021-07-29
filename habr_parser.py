@@ -16,7 +16,6 @@ HUBS = {
     "bidata": "Big Data",
     "venturecap": "Венчурные ивестиции",
     "statistics": "Статистика в ИТ",
-    "gtd": "GTD",
     "infosecurity": "Информационная безопасность",
     "health": "Здоровье",
     "read": "Читальный зал",
