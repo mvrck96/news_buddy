@@ -1,9 +1,8 @@
 from typing import Dict
 from requests import get
 import bs4 as bs
-from unicodedata import normalize
 from datetime import date
-from pprint import pprint
+
 
 URL = "https://www.rbc.ru/"
 
