@@ -1,6 +1,7 @@
-from datetime import date
+from datetime import datetime
 from telebot import TeleBot
 from telegram import ParseMode, chat, parsemode
+from loguru import logger
 
 import habr_parser
 import gazeta_parser
@@ -11,11 +12,13 @@ with open("token.txt", "r") as f:
     TOKEN = f.readline().strip()
 
 bot = TeleBot(TOKEN)
-print("Bot is live !!!")
+
+logger.info('Bot is up')
 
 
 @bot.message_handler(commands=["habr"])
 def habr_digest(message) -> None:
+    logger.debug('Starting parsing habr.com')
     bot.send_message(chat_id=message.chat.id, text="Gathering news for you !")
     data = habr_parser.parse_habr(top="/top/daily")
     post = habr_parser.get_md_message(data)
@@ -25,7 +28,7 @@ def habr_digest(message) -> None:
         parse_mode=ParseMode.MARKDOWN,
         disable_web_page_preview=True,
     )
-    print("Habr.com digest shipped !")
+    logger.info('Habr digest shipped')
 
 
 @bot.message_handler(commands=["rbc"])
@@ -38,7 +41,7 @@ def gazeta_digest(message) -> None:
         parse_mode=ParseMode.MARKDOWN,
         disable_web_page_preview=True,
     )
-    print("RBC.ru digest shipped !")
+    logger.info('Rbc digest shipped')
 
 
 @bot.message_handler(commands=["gazeta"])
@@ -51,7 +54,7 @@ def gazeta_digest(message) -> None:
         parse_mode=ParseMode.MARKDOWN,
         disable_web_page_preview=True,
     )
-    print("Gazeta.ru digest shipped !")
+    logger.info('Gazeta digest shipped')
 
 
 def not_habr(message: str) -> bool:
@@ -66,19 +69,21 @@ def not_habr(message: str) -> bool:
 def base_reply(message) -> None:
     bot.send_message(
         chat_id=message.chat.id,
-        text="Sorry, no supported comands except `/habr`",
+        text="Sorry, no supported comands except `/help`, `/habr`, `/rbc`, `/gazeta`",
         parse_mode=ParseMode.MARKDOWN,
     )
+    logger.info('No suitable command found')
 
 
 @bot.message_handler(commands=["start", "help"])
 def helping_greeting(message) -> None:
     help_message = """
-    Hi, this is *News buddy*. I can send you news from habr.com, gazeta.ru and rbc.ru\n -  To check top daily posts from selected hubs of habr.com send me `/habr`\n-  If you want top hot news from rbc.ru send `/rbc`\n-  For top news from gazeta.ru type `/gazeta`
+    Hi, this is *News buddy*. I can send you news from:\n habr.com, gazeta.ru and rbc.ru\n\n -  To check top daily posts from selected hubs of habr.com send me `/habr`\n-  If you want hot news from rbc.ru send `/rbc`\n-  For top news from gazeta.ru type `/gazeta`
     """
     bot.send_message(
         chat_id=message.chat.id, parse_mode=ParseMode.MARKDOWN, text=help_message
     )
+    logger.info('Help message shipped')
 
 
 bot.polling()
