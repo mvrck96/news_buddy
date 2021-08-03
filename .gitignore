@@ -3,3 +3,5 @@ email_credits.txt
 test_parse.txt
 /.vscode
 /__pycache__
+/.pytest_cache
+/tests
