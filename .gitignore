@@ -5,3 +5,4 @@ test_parse.txt
 /__pycache__
 /.pytest_cache
 /tests
+/news_buddy/__pycache__
