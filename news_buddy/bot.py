@@ -12,7 +12,6 @@ with open("token.txt", "r") as f:
     TOKEN = f.readline().strip()
 
 bot = TeleBot(TOKEN)
-
 logger.info("Bot is up !")
 
 
