@@ -13,12 +13,12 @@ with open("token.txt", "r") as f:
 
 bot = TeleBot(TOKEN)
 
-logger.info('Bot is up')
+logger.info("Bot is up !")
 
 
 @bot.message_handler(commands=["habr"])
 def habr_digest(message) -> None:
-    logger.debug('Starting parsing habr.com')
+    logger.debug("Starting parsing habr.com")
     bot.send_message(chat_id=message.chat.id, text="Gathering news for you !")
     data = habr_parser.parse_habr(top="/top/daily")
     post = habr_parser.get_md_message(data)
@@ -28,7 +28,7 @@ def habr_digest(message) -> None:
         parse_mode=ParseMode.MARKDOWN,
         disable_web_page_preview=True,
     )
-    logger.info('Habr digest shipped')
+    logger.info("Habr digest shipped")
 
 
 @bot.message_handler(commands=["rbc"])
@@ -41,7 +41,7 @@ def gazeta_digest(message) -> None:
         parse_mode=ParseMode.MARKDOWN,
         disable_web_page_preview=True,
     )
-    logger.info('Rbc digest shipped')
+    logger.info("Rbc digest shipped")
 
 
 @bot.message_handler(commands=["gazeta"])
@@ -54,7 +54,7 @@ def gazeta_digest(message) -> None:
         parse_mode=ParseMode.MARKDOWN,
         disable_web_page_preview=True,
     )
-    logger.info('Gazeta digest shipped')
+    logger.info("Gazeta digest shipped")
 
 
 def not_habr(message: str) -> bool:
@@ -72,7 +72,7 @@ def base_reply(message) -> None:
         text="Sorry, no supported comands except `/help`, `/habr`, `/rbc`, `/gazeta`",
         parse_mode=ParseMode.MARKDOWN,
     )
-    logger.info('No suitable command found')
+    logger.info("No suitable command found")
 
 
 @bot.message_handler(commands=["start", "help"])
@@ -83,7 +83,7 @@ def helping_greeting(message) -> None:
     bot.send_message(
         chat_id=message.chat.id, parse_mode=ParseMode.MARKDOWN, text=help_message
     )
-    logger.info('Help message shipped')
+    logger.info("Help message shipped")
 
 
 bot.polling()
