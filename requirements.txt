@@ -4,3 +4,4 @@ python-telegram-bot
 requests
 summa
 gensim==3.8.3
+beatifulsoup4
