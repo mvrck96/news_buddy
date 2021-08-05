@@ -1,6 +1,9 @@
+# Datafiles
 token.txt
 email_credits.txt
 test_parse.txt
+
+#Junk
 /.vscode
-/__pycache__
 /.pytest_cache
+**/__pycache__
