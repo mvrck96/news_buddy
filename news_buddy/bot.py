@@ -31,7 +31,7 @@ def habr_digest(message) -> None:
 
 
 @bot.message_handler(commands=["rbc"])
-def gazeta_digest(message) -> None:
+def rbc_digest(message) -> None:
     digest = rbc_parser.parse_rbc()
     post = rbc_parser.get_md_message(digest)
     bot.send_message(
