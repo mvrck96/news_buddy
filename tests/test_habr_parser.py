@@ -3,9 +3,8 @@ import sys
 sys.path.append(".")
 
 import bs4 as bs
-from requests import get
-
 from news_buddy.habr_parser import get_title_and_link, parse_habr
+from requests import get
 
 URL = "https://habr.com/ru/"
 
@@ -21,4 +20,4 @@ def test_get_title_and_link():
 def test_parse_habr():
     # Тест не корректный !
     # Потому что не корректно написана функция. Надо перписывать модули парсинга :(
-    assert parse_habr() == None, "I don't know how to write test !"
+    assert parse_habr(top='/top/daily', hubs={}) == {}, "I don't know how to write test !"

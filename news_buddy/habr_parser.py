@@ -1,7 +1,8 @@
-from typing import Tuple, Dict
-from requests import get
-import bs4 as bs
 from datetime import date
+from typing import Dict, Tuple
+
+import bs4 as bs
+from requests import get
 
 # from telegram.utils.helpers import escape_markdown
 
@@ -29,9 +30,9 @@ def get_title_and_link(article: str) -> Tuple:
     return link, title
 
 
-def parse_habr(top="/top/daily") -> Dict:
+def parse_habr(top="/top/daily", hubs=HUBS) -> Dict:
     digest = {}
-    for hub in HUBS.keys():
+    for hub in hubs.keys():
         link = URL + hub + top
         page = get(link)
         soup = bs.BeautifulSoup(page.text, "html.parser")
@@ -42,7 +43,7 @@ def parse_habr(top="/top/daily") -> Dict:
     return digest
 
 
-def get_md_message(digest: dict) -> str:
+def get_md_message_habr(digest: dict) -> str:
     today = date.today().strftime("%d.%m.%y")
     message = f"Вечерний дайджест хабр от {today}\n\n\n"
     for key in digest:
@@ -57,5 +58,5 @@ def get_md_message(digest: dict) -> str:
 if __name__ == "__main__":
     print("Parsing . . .")
     data = parse_habr(top="/top/daily")
-    message = get_md_message(data)
+    message = get_md_message_habr(data)
     print(message)
