@@ -41,7 +41,7 @@ def rbc_digest(message) -> None:
         parse_mode=ParseMode.MARKDOWN,
         disable_web_page_preview=True,
     )
-    name = message.from_user.first_name
+    name = message.from_user.username
     logger.info("Rbc digest shipped" + str(name))
 
 
