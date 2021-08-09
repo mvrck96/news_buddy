@@ -42,7 +42,7 @@ def rbc_digest(message) -> None:
         disable_web_page_preview=True,
     )
     name = message.from_user.first_name
-    logger.info("Rbc digest shipped", name)
+    logger.info("Rbc digest shipped" + str(name))
 
 
 @bot.message_handler(commands=["gazeta"])
