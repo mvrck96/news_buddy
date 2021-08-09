@@ -1,12 +1,13 @@
 from datetime import datetime
+
+from loguru import logger
 from telebot import TeleBot
 from telegram import ParseMode, chat, parsemode
-from loguru import logger
 
-import habr_parser
 import gazeta_parser
+import habr_parser
 import rbc_parser
-
+import utils
 
 with open("token.txt", "r") as f:
     TOKEN = f.readline().strip()
@@ -40,7 +41,8 @@ def rbc_digest(message) -> None:
         parse_mode=ParseMode.MARKDOWN,
         disable_web_page_preview=True,
     )
-    logger.info("Rbc digest shipped")
+    name = message.from_user.firstname
+    logger.info("Rbc digest shipped", name)
 
 
 @bot.message_handler(commands=["gazeta"])
@@ -56,15 +58,7 @@ def gazeta_digest(message) -> None:
     logger.info("Gazeta digest shipped")
 
 
-def not_habr(message: str) -> bool:
-    return (
-        True
-        if str(message).strip().lower() in ["habr", "start", "help", "rbc", "gazeta"]
-        else False
-    )
-
-
-@bot.message_handler(func=not_habr)
+@bot.message_handler(func=utils.not_habr)
 def base_reply(message) -> None:
     bot.send_message(
         chat_id=message.chat.id,
