@@ -21,7 +21,7 @@ def habr_digest(message) -> None:
     logger.debug("Starting parsing habr.com")
     bot.send_message(chat_id=message.chat.id, text="Gathering news for you !")
     data = habr_parser.parse_habr(top="/top/daily")
-    post = habr_parser.get_md_message(data)
+    post = habr_parser.get_md_message_habr(data)
     bot.send_message(
         chat_id=message.chat.id,
         text=post,
@@ -34,7 +34,7 @@ def habr_digest(message) -> None:
 @bot.message_handler(commands=["rbc"])
 def rbc_digest(message) -> None:
     digest = rbc_parser.parse_rbc()
-    post = rbc_parser.get_md_message(digest)
+    post = utils.get_md_message_unified('Rbc.ru', digest)
     bot.send_message(
         chat_id=message.chat.id,
         text=post,
@@ -48,7 +48,7 @@ def rbc_digest(message) -> None:
 @bot.message_handler(commands=["gazeta"])
 def gazeta_digest(message) -> None:
     digest = gazeta_parser.parse_gazeta()
-    post = gazeta_parser.get_md_message(digest)
+    post = utils.get_md_message_unified('Gazeta.ru', digest)
     bot.send_message(
         chat_id=message.chat.id,
         text=post,
