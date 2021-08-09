@@ -18,7 +18,9 @@ logger.info("Bot is up !")
 
 @bot.message_handler(commands=["habr"])
 def habr_digest(message) -> None:
-    logger.debug("Starting parsing habr.com")
+    source = 'Habr.com'
+    user = utils.get_user(message)
+    logger.debug(f"Starting parsing {source}")
     bot.send_message(chat_id=message.chat.id, text="Gathering news for you !")
     data = habr_parser.parse_habr(top="/top/daily")
     post = habr_parser.get_md_message_habr(data)
@@ -28,7 +30,7 @@ def habr_digest(message) -> None:
         parse_mode=ParseMode.MARKDOWN,
         disable_web_page_preview=True,
     )
-    logger.info("Habr digest shipped")
+    utils.log_digest(source, user)
 
 
 @bot.message_handler(commands=["rbc"])
@@ -48,6 +50,8 @@ def rbc_digest(message) -> None:
 
 @bot.message_handler(commands=["gazeta"])
 def gazeta_digest(message) -> None:
+    source = 'Gazeta.ru'
+    user = utils.get_user(message)
     digest = gazeta_parser.parse_gazeta()
     post = utils.get_md_message_unified('Gazeta.ru', digest)
     bot.send_message(
@@ -56,8 +60,7 @@ def gazeta_digest(message) -> None:
         parse_mode=ParseMode.MARKDOWN,
         disable_web_page_preview=True,
     )
-    logger.info("Gazeta digest shipped")
-
+    utils.log_digest(source, user)
 
 @bot.message_handler(func=utils.not_habr)
 def base_reply(message) -> None:
