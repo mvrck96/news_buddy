@@ -12,4 +12,4 @@ RUN python -m pip install -r requirements.txt
 WORKDIR /app
 COPY . /app
 
-CMD ["python", "~/app/news_buddy/bot.py"]
+CMD ["python", "news_buddy/bot.py"]
