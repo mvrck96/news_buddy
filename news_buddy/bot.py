@@ -33,16 +33,17 @@ def habr_digest(message) -> None:
 
 @bot.message_handler(commands=["rbc"])
 def rbc_digest(message) -> None:
+    source = 'Rbc.ru'
+    user = utils.get_user(message)
     digest = rbc_parser.parse_rbc()
-    post = utils.get_md_message_unified('Rbc.ru', digest)
+    post = utils.get_md_message_unified(source, digest)
     bot.send_message(
         chat_id=message.chat.id,
         text=post,
         parse_mode=ParseMode.MARKDOWN,
         disable_web_page_preview=True,
     )
-    name = message.from_user.username
-    logger.info("Rbc digest shipped" + str(name))
+    utils.log_digest(source, user)
 
 
 @bot.message_handler(commands=["gazeta"])

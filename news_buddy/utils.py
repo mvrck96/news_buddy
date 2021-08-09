@@ -1,4 +1,6 @@
 from datetime import date
+from typing import Dict
+from loguru import logger
 
 
 def get_md_message_unified(name: str, digest: dict) -> str:
@@ -17,8 +19,15 @@ def not_habr(message: str) -> bool:
         else False
     )
 
-def get_name():
-    pass
+def get_user(message: object) -> Dict:
+    id_ = message.from_user.id
+    username = message.from_user.username
+    fname = message.from_user.first_name
+    lname = message.from_user.last_name
+    return {'id': id_, 'username': username, 'first_name': fname, 'last_name': lname}
+
+def log_digest(source: str, user:dict) -> None:
+    logger.info(f"{source} digest shipped for {user['username']}, id:{user['id']}")
 
 
 if __name__ == "__main__":
