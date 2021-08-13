@@ -1,6 +1,7 @@
 from datetime import date
 from typing import Dict
 from loguru import logger
+import psycopg2 as ps
 
 
 def get_md_message_unified(name: str, digest: dict) -> str:
@@ -30,6 +31,13 @@ def get_user(message: object) -> Dict:
 
 def log_digest(source: str, user: dict) -> None:
     logger.info(f"{source} digest shipped for {user['username']}, id:{user['id']}")
+
+
+def db_connect():
+    pass
+
+def db_insert():
+    pass
 
 
 if __name__ == "__main__":
