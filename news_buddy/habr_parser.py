@@ -31,8 +31,7 @@ def get_title_and_link(article: str) -> Tuple:
 
 
 def parse_habr(top="/top/daily", hubs=HUBS) -> Dict:
-    # TODO: Добавить фильтрацию статей
-    #       Например, если статья попадается в Python, то её не надо    показывать в ML
+    # TODO: Add article filtration to habr. E.g. if article was printed in Python hub it shoulds't be printed in ML hub
     digest = {}
     for hub in hubs.keys():
         link = URL + hub + top
@@ -46,7 +45,7 @@ def parse_habr(top="/top/daily", hubs=HUBS) -> Dict:
 
 
 def get_md_message_habr(digest: dict) -> str:
-    # FIXME: Иногда, ссылка на статью выводится не корректно вместе со скобками
+    # FIXME: Occasionally there is troubles with pretty printing titles and links to articles 
     today = date.today().strftime("%d.%m.%y")
     message = f"Вечерний дайджест хабр от {today}\n\n\n"
     for key in digest:

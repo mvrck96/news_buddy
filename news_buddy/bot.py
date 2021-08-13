@@ -64,6 +64,7 @@ def gazeta_digest(message) -> None:
 
 
 @bot.message_handler(func=utils.not_habr)
+#TODO: Change logic of validating function. It must print /help message if command not from valid list sent
 def base_reply(message) -> None:
     bot.send_message(
         chat_id=message.chat.id,
