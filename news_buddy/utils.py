@@ -3,6 +3,14 @@ from typing import Dict
 from loguru import logger
 import psycopg2 as ps
 
+COMMANDS = [
+    '/start',
+    '/help',
+    '/habr',
+    '/gazeta',
+    '/rbc'
+    ]
+
 
 def get_md_message_unified(name: str, digest: dict) -> str:
     today = date.today().strftime("%d.%m.%y")
@@ -13,12 +21,11 @@ def get_md_message_unified(name: str, digest: dict) -> str:
     return message
 
 
-def not_habr(message: str) -> bool:
-    return (
-        True
-        if str(message).strip().lower() in ["habr", "start", "help", "rbc", "gazeta"]
-        else False
-    )
+def check_validity(message: str) -> bool:
+    if message.text.lower() not in COMMANDS:
+        return True
+    else:
+        return False
 
 
 def get_user(message: object) -> Dict:
