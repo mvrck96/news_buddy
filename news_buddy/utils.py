@@ -1,15 +1,9 @@
 from datetime import date
-from typing import Dict
+from typing import Dict, Text
 from loguru import logger
 import psycopg2 as ps
 
-COMMANDS = [
-    '/start',
-    '/help',
-    '/habr',
-    '/gazeta',
-    '/rbc'
-    ]
+COMMANDS = ["/start", "/help", "/habr", "/gazeta", "/rbc"]
 
 
 def get_md_message_unified(name: str, digest: dict) -> str:
@@ -21,8 +15,8 @@ def get_md_message_unified(name: str, digest: dict) -> str:
     return message
 
 
-def check_validity(message: str) -> bool:
-    if message.text.lower() not in COMMANDS:
+def check_invalidity(message) -> bool:
+    if str(message).lower() not in COMMANDS:
         return True
     else:
         return False
@@ -42,6 +36,7 @@ def log_digest(source: str, user: dict) -> None:
 
 def db_connect():
     pass
+
 
 def db_insert():
     pass

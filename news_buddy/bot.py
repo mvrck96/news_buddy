@@ -63,7 +63,7 @@ def gazeta_digest(message) -> None:
     utils.log_digest(source, user)
 
 
-@bot.message_handler(func=utils.check_validity)
+@bot.message_handler(func=utils.check_invalidity)
 # TODO: Change logic of validating function. It must print /help message if command not from valid list sent
 def base_reply(message) -> None:
     bot.send_message(
