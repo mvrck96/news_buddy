@@ -16,7 +16,7 @@ def get_md_message_unified(name: str, digest: dict) -> str:
 
 
 def check_invalidity(message) -> bool:
-    if str(message).lower() not in COMMANDS:
+    if str(message) not in COMMANDS:
         return True
     else:
         return False

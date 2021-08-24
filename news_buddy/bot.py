@@ -85,4 +85,4 @@ def helping_greeting(message) -> None:
     logger.info("Help message shipped")
 
 
-bot.polling()
+bot.polling(none_stop=True)
