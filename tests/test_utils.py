@@ -14,6 +14,6 @@ def test_get_md_message_unified():
     assert utils.get_md_message_unified(name, []) == res
 
 @pytest.mark.parametrize('test_input, expected', \
- [('asdasd', True),  ('Habr', True), ('/abrakadabra', True), ('/rbc', False), ('/Gazeta', False)])
+ [('asdasd', True),  ('Habr', True), ('/abrakadabra', True), ('/rbc', False), ('/Gazeta', True)])
 def test_check_invalidity(test_input, expected):
     assert utils.check_invalidity(test_input) == expected
