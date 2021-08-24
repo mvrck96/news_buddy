@@ -7,7 +7,7 @@ Easy way:
 1. `git clone https://github.com/mvrck96/news_buddy`
 2. `cd news_buddy`
 3. Add your token to `token.txt`
-4. `python bot.py`
+4. Run `python bot.py`
 
 Docker way:
 1. Make sure that docker is installed
