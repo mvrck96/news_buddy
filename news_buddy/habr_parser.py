@@ -1,6 +1,5 @@
-from itertools import chain
-
 from datetime import date
+from itertools import chain
 from typing import Dict, Tuple
 
 import bs4 as bs
