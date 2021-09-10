@@ -3,9 +3,9 @@ import sys
 sys.path.append(".")
 
 import bs4 as bs
-from news_buddy import habr_parser 
-from requests import get
 import pytest
+from news_buddy import habr_parser
+from requests import get
 
 URL = "https://habr.com/ru/"
 
