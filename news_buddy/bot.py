@@ -23,7 +23,8 @@ def habr_digest(message) -> None:
     logger.debug(f"Starting parsing {source}")
     bot.send_message(chat_id=message.chat.id, text="Gathering news for you !")
     data = habr_parser.parse_habr(top="/top/daily")
-    post = habr_parser.get_md_message_habr(data)
+    digest = habr_parser.filter_digest(data)
+    post = habr_parser.get_md_message_habr(digest)
     bot.send_message(
         chat_id=message.chat.id,
         text=post,
