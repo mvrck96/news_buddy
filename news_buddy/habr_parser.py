@@ -1,3 +1,5 @@
+from itertools import chain
+
 from datetime import date
 from typing import Dict, Tuple
 
@@ -31,7 +33,6 @@ def get_title_and_link(article: str) -> Tuple:
 
 
 def parse_habr(top="/top/daily", hubs=HUBS) -> Dict:
-    # TODO: Add article filtration to habr. E.g. if article was printed in Python hub it shoulds't be printed in ML hub
     digest = {}
     for hub in hubs.keys():
         link = URL + hub + top
@@ -45,7 +46,7 @@ def parse_habr(top="/top/daily", hubs=HUBS) -> Dict:
 
 
 def get_md_message_habr(digest: dict) -> str:
-    # FIXME: Occasionally there is troubles with pretty printing titles and links to articles 
+    # FIXME: Occasionally there is troubles with pretty printing titles and links to articles
     today = date.today().strftime("%d.%m.%y")
     message = f"Вечерний дайджест хабр от {today}\n\n\n"
     for key in digest:
@@ -57,8 +58,22 @@ def get_md_message_habr(digest: dict) -> str:
     return message
 
 
+def filter_digest(digest: Dict) -> Dict:
+    filtered_digest = {}
+    for key, value in digest.items():
+        filtered_digest[key] = []
+        for tup in value:
+            if tup not in chain(*filtered_digest.values()):
+                filtered_digest[key].append(tup)
+    filtered_digest = {
+        key: value for key, value in filtered_digest.items() if value != []
+    }
+    return filtered_digest
+
+
 if __name__ == "__main__":
     print("Parsing . . .")
     data = parse_habr(top="/top/daily")
-    message = get_md_message_habr(data)
+    dg = filter_digest(data)
+    message = get_md_message_habr(dg)
     print(message)
