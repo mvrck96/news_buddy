@@ -1,7 +1,7 @@
 from datetime import datetime
 
 from loguru import logger
-from telebot import TeleBot
+from telebot import TeleBot, util
 from telegram import ParseMode, chat, parsemode
 
 import gazeta_parser
@@ -13,6 +13,7 @@ with open("token.txt", "r") as f:
     TOKEN = f.readline().strip()
 
 bot = TeleBot(TOKEN)
+utils.log_create_file()
 logger.info("Bot is up !")
 
 
@@ -65,25 +66,28 @@ def gazeta_digest(message) -> None:
 
 
 @bot.message_handler(func=utils.check_invalidity)
-# TODO: Change logic of validating function. It must print /help message if command not from valid list sent
-def base_reply(message) -> None:
+def unsupported_reply(message) -> None:
+    user = utils.get_user(message)
     bot.send_message(
         chat_id=message.chat.id,
         text="Sorry, no supported comands except:\n`/help`, `/habr`, `/rbc`, `/gazeta`",
         parse_mode=ParseMode.MARKDOWN,
     )
-    logger.info("No suitable command found")
+    util.log_unsupported(user)
 
 
 @bot.message_handler(commands=["start", "help"])
 def helping_greeting(message) -> None:
+    user = utils.get_user(message)
     help_message = """
     Hi, this is *News buddy*. I can send you news from:\n habr.com, gazeta.ru and rbc.ru\n\n -  To check top daily posts from selected hubs of habr.com \nsend me `/habr`\n-  If you want hot news from rbc.ru send `/rbc`\n-  For top news from gazeta.ru type `/gazeta`
     """
     bot.send_message(
         chat_id=message.chat.id, parse_mode=ParseMode.MARKDOWN, text=help_message
     )
-    logger.info("Help message shipped")
+    utils.log_help(user)
 
 
-bot.polling(none_stop=True)
+bot.polling()
+
+logger.critical('! ! ! Bot is down ! ! !')
