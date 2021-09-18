@@ -1,7 +1,9 @@
+import os
 from datetime import date
 from typing import Dict, Text
-from loguru import logger
+
 import psycopg2 as ps
+from loguru import logger
 
 COMMANDS = ["/start", "/help", "/habr", "/gazeta", "/rbc"]
 
@@ -55,6 +57,7 @@ def log_create_file() -> None:
 
 
 def log_digest(source: str, user: dict) -> None:
+    os.mkdir('../logs')
     logger.info(f"{source} digest shipped for id:{user['id']}, {user['username']}")
 
 
