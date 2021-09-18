@@ -47,7 +47,7 @@ def parse_habr(top="/top/daily", hubs=HUBS) -> Dict:
 def get_md_message_habr(digest: dict) -> str:
     # FIXME: Occasionally there is troubles with pretty printing titles and links to articles
     today = date.today().strftime("%d.%m.%y")
-    message = f"Вечерний дайджест хабр от {today}\n\n\n"
+    message = f"Дайджест хабр от {today}\n\n\n"
     for key in digest:
         tmp = f"*{HUBS[key]}*\n"
         for item in digest[key]:
