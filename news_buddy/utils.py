@@ -57,7 +57,6 @@ def log_create_file() -> None:
 
 
 def log_digest(source: str, user: dict) -> None:
-    os.mkdir('../logs')
     logger.info(f"{source} digest shipped for id:{user['id']}, {user['username']}")
 
 
@@ -81,3 +80,4 @@ def db_insert():
 
 if __name__ == "__main__":
     print(__file__)
+    

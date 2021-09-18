@@ -73,7 +73,7 @@ def unsupported_reply(message) -> None:
         text="Sorry, no supported comands except:\n`/help`, `/habr`, `/rbc`, `/gazeta`",
         parse_mode=ParseMode.MARKDOWN,
     )
-    util.log_unsupported(user)
+    utils.log_unsupported(user)
 
 
 @bot.message_handler(commands=["start", "help"])
