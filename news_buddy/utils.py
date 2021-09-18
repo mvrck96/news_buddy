@@ -47,7 +47,7 @@ def get_user(message: object) -> Dict:
 
 def log_create_file() -> None:
     logger.add(
-        "logs/log.json",
+        "data/logs/log.json",
         format="{time} {level} {message}",
         level="TRACE",
         rotation="1 week",

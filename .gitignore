@@ -10,3 +10,4 @@ test_parse.txt
 
 /logs
 /scripts
+docker-compose.debug.yml

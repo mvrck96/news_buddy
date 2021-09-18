@@ -1,0 +1,14 @@
+version: '3.4'
+
+volumes:
+  newsbuddy_data: 
+
+services:
+  newsbuddy:
+    image: newsbuddy
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    restart: always
+    volumes:
+      - newsbuddy_data:/data
