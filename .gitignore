@@ -7,3 +7,5 @@ test_parse.txt
 /.vscode
 /.pytest_cache
 **/__pycache__
+
+/logs
