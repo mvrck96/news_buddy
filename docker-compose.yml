@@ -1,14 +1,28 @@
 version: '3.4'
 
-volumes:
-  newsbuddy_data: 
-
 services:
   newsbuddy:
+    container_name: NB
     image: newsbuddy
     build:
       context: .
       dockerfile: ./Dockerfile
     restart: always
     volumes:
-      - newsbuddy_data:/data
+      - ./data/logs:/app/data/logs
+    depends_on: 
+      - postgres
+  
+  postgres:
+    image: postgres
+    container_name: postgres
+    environment: 
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: newsbuddy_db
+      PGDATA: /data/db
+    volumes:
+      - ./data/db:/data/db
+      - ./news_buddy/initdb:/docker-entrypoint-initdb.d
+    ports:
+      - 9696:5432
