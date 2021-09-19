@@ -1,8 +1,7 @@
-from datetime import datetime
-
 from loguru import logger
-from telebot import TeleBot, util
-from telegram import ParseMode, chat, parsemode
+import psycopg2 as ps
+from telebot import TeleBot
+from telegram import ParseMode
 
 import gazeta_parser
 import habr_parser
@@ -90,4 +89,4 @@ def helping_greeting(message) -> None:
 
 bot.polling()
 
-logger.critical('! ! ! Bot is down ! ! !')
+logger.critical("! ! ! Bot is down ! ! !")

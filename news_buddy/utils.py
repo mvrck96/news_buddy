@@ -80,4 +80,3 @@ def db_insert():
 
 if __name__ == "__main__":
     print(__file__)
-    
