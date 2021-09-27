@@ -17,9 +17,9 @@
 
 ### Стек технологий
 
-- python 3.8
-- Docker + docker-compose
-- Postgres + psycopg2
+- `python3.8`
+- Docker + `docker-compose`
+- PostgreSQL + `psycopg2`
 - Telegram Bot API
 
 ## Set up #wip
