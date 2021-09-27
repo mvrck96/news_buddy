@@ -35,10 +35,8 @@ Easy way:
 5. Run `python bot.py`
 
 Docker way: (outdated)
-1. Make sure that docker is installed
-2. Repeat steps 1-3 from easy way installation
-3. `docker build -t newsbuddy .`
-4. `docker run --name=NB -d newsbuddy`
-5. Voila ! Bot is running now
-
-> To view logs run `docker attach NB`
+~~1. Make sure that docker is installed
+~~2. Repeat steps 1-3 from easy way installation
+~~3. `docker build -t newsbuddy .`
+~~4. `docker run --name=NB -d newsbuddy`
+~~5. Voila ! Bot is running now
