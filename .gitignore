@@ -12,3 +12,5 @@ test_parse.txt
 /scripts
 docker-compose.debug.yml
 /data
+
+parser.py
