@@ -55,7 +55,7 @@ def gazeta_digest(message) -> None:
     source = "Gazeta.ru"
     user = utils.get_user(message)
     digest = gazeta_parser.parse_gazeta()
-    post = utils.get_md_message_unified("Gazeta.ru", digest)
+    post = utils.get_md_message_unified(source, digest)
     bot.send_message(
         chat_id=message.chat.id,
         text=post,

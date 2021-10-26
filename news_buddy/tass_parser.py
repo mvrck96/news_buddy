@@ -14,6 +14,6 @@ def get_live_news() -> Dict:
 
 
 if __name__ == "__main__":
-    name = "RBC.ru"
+    name = "Tass.ru"
     digest = get_live_news()
     print(utils.get_md_message_unified(name, digest))
