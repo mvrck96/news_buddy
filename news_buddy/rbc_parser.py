@@ -1,28 +1,23 @@
-from datetime import date
 from typing import Dict
-
 import bs4 as bs
 from requests import get
-
 import utils
 
-URL = "https://www.rbc.ru/"
+RBC_API_LINK = "https://www.rbc.ru/v10/ajax/main/region/world/publicher/main_main"
 
 
-def parse_rbc(url=URL) -> Dict:
+def get_main_news() -> Dict:
     digest = {}
-    page = get(url)
-    soup = bs.BeautifulSoup(page.text, "html.parser")
-    wrapper = soup.find("div", {"class": "main js-main-reload"})
-    big_link = wrapper.find("a", {"class": "main__big__link js-yandex-counter"})
-    digest[big_link["href"]] = big_link.span.text.strip()
-    small_news = soup.find_all("a", {"class": "main__feed__link js-yandex-counter"})
-    for block in small_news:
-        digest[block["href"]] = block.span.text.strip()
+    news = get(
+        "https://www.rbc.ru/v10/ajax/main/region/world/publicher/main_main"
+    ).json()
+    for n in news["items"]:
+        s = bs.BeautifulSoup(n["html"], "html.parser")
+        digest[s.a["href"].split("?")[0]] = s.span.text.strip()
     return digest
 
 
 if __name__ == "__main__":
-    name = 'RBC.ru'
-    digest = parse_rbc()
+    name = "RBC.ru"
+    digest = get_main_news()
     print(utils.get_md_message_unified(name, digest))

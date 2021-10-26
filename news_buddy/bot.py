@@ -38,7 +38,7 @@ def habr_digest(message) -> None:
 def rbc_digest(message) -> None:
     source = "Rbc.ru"
     user = utils.get_user(message)
-    digest = rbc_parser.parse_rbc()
+    digest = rbc_parser.get_main_news()
     post = utils.get_md_message_unified(source, digest)
     bot.send_message(
         chat_id=message.chat.id,
