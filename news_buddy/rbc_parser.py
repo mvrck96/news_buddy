@@ -8,9 +8,7 @@ RBC_API_LINK = "https://www.rbc.ru/v10/ajax/main/region/world/publicher/main_mai
 
 def get_main_news() -> Dict:
     digest = {}
-    news = get(
-        "https://www.rbc.ru/v10/ajax/main/region/world/publicher/main_main"
-    ).json()
+    news = get(RBC_API_LINK).json()
     for n in news["items"]:
         s = bs.BeautifulSoup(n["html"], "html.parser")
         digest[s.a["href"].split("?")[0]] = s.span.text.strip()
