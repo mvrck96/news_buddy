@@ -5,6 +5,7 @@ from telegram import ParseMode
 
 import gazeta_parser
 import habr_parser
+import tass_parser
 import rbc_parser
 import utils
 
@@ -55,6 +56,20 @@ def gazeta_digest(message) -> None:
     user = utils.get_user(message)
     digest = gazeta_parser.parse_gazeta()
     post = utils.get_md_message_unified("Gazeta.ru", digest)
+    bot.send_message(
+        chat_id=message.chat.id,
+        text=post,
+        parse_mode=ParseMode.MARKDOWN,
+        disable_web_page_preview=True,
+    )
+    utils.log_digest(source, user)
+
+@bot.message_handler(commands=["tass"])
+def tass_live_digest(message) -> None:
+    source = "Tass.ru"
+    user = utils.get_user(message)
+    digest = tass_parser.get_live_news()
+    post = utils.get_md_message_unified(source, digest)
     bot.send_message(
         chat_id=message.chat.id,
         text=post,
