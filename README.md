@@ -20,10 +20,10 @@
 ### Стек технологий
 
 - `python3.8`
-- Docker + `docker-compose`
-- PostgreSQL + `psycopg2`
-- Telegram Bot API
-- Логирование с `loguru`
+- `Docker` + `docker-compose`
+- `PostgreSQL` + `psycopg2`
+- `Telegram Bot API`
+- Логирование - `loguru`
 
 ## Set up #wip
 
