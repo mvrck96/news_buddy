@@ -1,12 +1,11 @@
 from loguru import logger
-import psycopg2 as ps
 from telebot import TeleBot
 from telegram import ParseMode
 
 import gazeta_parser
 import habr_parser
-import tass_parser
 import rbc_parser
+import tass_parser
 import utils
 
 with open("token.txt", "r") as f:
@@ -15,7 +14,7 @@ with open("token.txt", "r") as f:
 bot = TeleBot(TOKEN)
 utils.log_create_file()
 logger.info("Bot is up !")
-
+utils.db_connect()
 
 @bot.message_handler(commands=["habr"])
 def habr_digest(message) -> None:
