@@ -78,5 +78,15 @@ def db_insert():
     pass
 
 
+def db_connect():
+    connection = ps.connect(dbname='newsbuddy_db',
+                            user='postgres',
+                            password='postgres', 
+                            host='postgres', 
+                            port=5432)
+    connection.autocommit = True
+    logger.info(f"Connection to localhost:newsbuddy_db opened")
+
+
 if __name__ == "__main__":
     print(__file__)
