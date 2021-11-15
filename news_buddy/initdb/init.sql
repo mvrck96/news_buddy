@@ -1,11 +1,23 @@
--- Initialisation script for database
-DROP TABLE IF EXISTS digests;
+-- Initialisation script for newsbuddy_db
 
-CREATE TABLE digests (
-  id serial,
-  title varchar,
-  link varchar,
-  PRIMARY KEY(id)
+
+CREATE TABLE IF NOT EXISTS news_tass(
+  id serial PRIMARY KEY,
+  title VARCHAR,
+  link VARCHAR,
+  time TIMESTAMP
 );
 
-CREATE TABLE users(id serial, name varchar, PRIMARY KEY(id));
+CREATE TABLE IF NOT EXISTS news_rbc(
+  id serial PRIMARY KEY,
+  title VARCHAR,
+  link VARCHAR,
+  time TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS news_gazeta(
+  id serial PRIMARY KEY,
+  title VARCHAR,
+  link VARCHAR,
+  time TIMESTAMP
+);
