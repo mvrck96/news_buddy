@@ -14,7 +14,9 @@ with open("token.txt", "r") as f:
 bot = TeleBot(TOKEN)
 utils.log_create_file()
 logger.info("Bot is up !")
-utils.db_connect()
+
+conn = utils.db_connect()  # Connection to db
+
 
 @bot.message_handler(commands=["habr"])
 def habr_digest(message) -> None:
@@ -47,6 +49,7 @@ def rbc_digest(message) -> None:
         disable_web_page_preview=True,
     )
     utils.log_digest(source, user)
+    utils.db_write_news(conn, "news_" + source.split(".")[0].lower(), digest)
 
 
 @bot.message_handler(commands=["gazeta"])
@@ -62,6 +65,8 @@ def gazeta_digest(message) -> None:
         disable_web_page_preview=True,
     )
     utils.log_digest(source, user)
+    utils.db_write_news(conn, "news_" + source.split(".")[0].lower(), digest)
+
 
 @bot.message_handler(commands=["tass"])
 def tass_live_digest(message) -> None:
@@ -76,6 +81,7 @@ def tass_live_digest(message) -> None:
         disable_web_page_preview=True,
     )
     utils.log_digest(source, user)
+    utils.db_write_news(conn, "news_" + source.split(".")[0].lower(), digest)
 
 
 @bot.message_handler(func=utils.check_invalidity)
@@ -104,3 +110,5 @@ def helping_greeting(message) -> None:
 bot.polling()
 
 logger.critical("! ! ! Bot is down ! ! !")
+
+utils.db_close(conn)
