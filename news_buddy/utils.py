@@ -1,6 +1,7 @@
 import os
 from datetime import date
-from typing import Dict, Text
+from datetime import datetime
+from typing import Dict
 
 import psycopg2 as ps
 from loguru import logger
@@ -29,20 +30,7 @@ def get_user(message: object) -> Dict:
     username = message.from_user.username
     fname = message.from_user.first_name
     lname = message.from_user.last_name
-    # is_scam = message.from_user.scam
-    # phone = message.from_user.phone
-    # status = message.from_user.status
-    # lang_code = message.from_user.lang_code
-    return {
-        "id": id_,
-        "username": username,
-        "first_name": fname,
-        "last_name": lname,
-        # "is_scam": is_scam,
-        # "phone": phone,
-        # "status": status,
-        # "lang_code": lang_code,
-    }
+    return {"id": id_, "username": username, "first_name": fname, "last_name": lname}
 
 
 def log_create_file() -> None:
@@ -71,21 +59,49 @@ def log_help(user: dict) -> None:
 
 
 def db_connect():
-    pass
-
-
-def db_insert():
-    pass
-
-
-def db_connect():
-    connection = ps.connect(dbname='newsbuddy_db',
-                            user='postgres',
-                            password='postgres', 
-                            host='postgres', 
-                            port=5432)
+    connection = ps.connect(
+        dbname="newsbuddy_db",
+        user="postgres",
+        password="postgres",
+        host="postgres",
+        port=5432,
+    )
     connection.autocommit = True
     logger.info(f"Connection to localhost:newsbuddy_db opened")
+    return connection
+
+
+def db_get_news(conn, table: str) -> Dict:
+    with conn.cursor() as cur:
+        cur.execute(
+            """
+            SELECT link, title FROM {table_name};
+        """.format(
+                table_name=table
+            )
+        )
+        return dict(cur.fetchall())
+
+
+def db_write_news(conn, table: str, news: dict) -> None:
+    olds = db_get_news(conn, table)
+    fresh = [n for n in news.items() if n[0] not in olds.keys()]
+    for f in fresh:
+        with conn.cursor() as cur:
+            cur.execute(
+                """
+                INSERT INTO {table_name} (title, link, time) 
+                VALUES ('{title}', '{link}', '{time}')
+                """.format(
+                    table_name=table, title=f[1], link=f[0], time=datetime.today()
+                )
+            )
+    logger.info(f"{len(fresh)} items added to {table}")
+
+
+def db_close(conn):
+    conn.close()
+    logger.info("Connection closed ! ! !")
 
 
 if __name__ == "__main__":
