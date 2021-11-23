@@ -1,8 +1,20 @@
 version: '3.8'
 
 services:
+
+  database:
+    image: postgres
+    container_name: postgres_database
+    env_file:
+      - .env
+    volumes:
+      - ./data/db:/data/db
+      - ./news_buddy/initdb/init.sql:/docker-entrypoint-initdb.d/init.sql
+    ports:
+      - 9696:5432
+
   newsbuddy:
-    container_name: NB
+    container_name: newsbuddy
     image: newsbuddy
     build:
       context: .
@@ -10,19 +22,7 @@ services:
     restart: always
     volumes:
       - ./data/logs:/app/data/logs
-    links: 
-      - postgres
-  
-  postgres:
-    image: postgres
-    container_name: postgres
-    environment: 
-      POSTGRES_DB: newsbuddy_db
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-      PGDATA: /data/db
-    volumes:
-      - ./data/db:/data/db
-      - ./news_buddy/initdb/init.sql:/docker-entrypoint-initdb.d/init.sql
-    ports:
-      - 9696:5432
+    depends_on: 
+      - database
+    env_file:
+      - .env
