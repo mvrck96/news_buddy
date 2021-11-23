@@ -1,3 +1,4 @@
+import time
 from os import getenv
 from dotenv import find_dotenv, load_dotenv
 from loguru import logger
@@ -10,17 +11,15 @@ import rbc_parser
 import tass_parser
 import utils
 
-# with open("token.txt", "r") as f:
-#     TOKEN = f.readline().strip()
 
-load_dotenv(find_dotenv())
-TOKEN = getenv("TOKEN")
+TOKEN = getenv("_BOT_TOKEN")
 
 bot = TeleBot(TOKEN)
 utils.log_create_file()
 logger.info("Bot is up !")
 
-conn = utils.db_connect()  # Connection to db
+time.sleep(3) # wait a liitle just to do not recieve coonection errors. When db is initialising
+conn = utils.db_connect()
 
 
 @bot.message_handler(commands=["habr"])

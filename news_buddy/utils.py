@@ -60,16 +60,11 @@ def log_help(user: dict) -> None:
 
 def db_connect():
     connection = ps.connect(
-        # dbname="newsbuddy_db",
-        # user="postgres",
-        # password="postgres",
-        # host="postgres",
-        # port=5432,
         dbname=getenv("POSTGRES_DB"),
         user=getenv("POSTGRES_USER"),
         password=getenv("POSTGRES_PASSWORD"),
-        host="postgres",
-        port=5432,
+        port=getenv("_POSTGRES_PORT"),
+        host="postgres_database", # container name for postgres db, specified in docker-compose
     )
     connection.autocommit = True
     logger.info(f"Connection to database opened")
