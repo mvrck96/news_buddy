@@ -14,3 +14,4 @@ docker-compose.debug.yml
 /data
 
 parser.py
+.env
