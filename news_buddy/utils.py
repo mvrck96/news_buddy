@@ -1,4 +1,4 @@
-import os
+from os import getenv
 from datetime import date
 from datetime import datetime
 from typing import Dict
@@ -60,14 +60,19 @@ def log_help(user: dict) -> None:
 
 def db_connect():
     connection = ps.connect(
-        dbname="newsbuddy_db",
-        user="postgres",
-        password="postgres",
+        # dbname="newsbuddy_db",
+        # user="postgres",
+        # password="postgres",
+        # host="postgres",
+        # port=5432,
+        dbname=getenv("POSTGRES_DB"),
+        user=getenv("POSTGRES_USER"),
+        password=getenv("POSTGRES_PASSWORD"),
         host="postgres",
         port=5432,
     )
     connection.autocommit = True
-    logger.info(f"Connection to localhost:newsbuddy_db opened")
+    logger.info(f"Connection to database opened")
     return connection
 
 
@@ -76,7 +81,7 @@ def db_get_news(conn, table: str) -> Dict:
         cur.execute(
             """
             SELECT link, title FROM {table_name};
-        """.format(
+            """.format(
                 table_name=table
             )
         )

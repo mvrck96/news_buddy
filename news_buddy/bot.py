@@ -1,3 +1,5 @@
+from os import getenv
+from dotenv import find_dotenv, load_dotenv
 from loguru import logger
 from telebot import TeleBot
 from telegram import ParseMode
@@ -8,8 +10,11 @@ import rbc_parser
 import tass_parser
 import utils
 
-with open("token.txt", "r") as f:
-    TOKEN = f.readline().strip()
+# with open("token.txt", "r") as f:
+#     TOKEN = f.readline().strip()
+
+load_dotenv(find_dotenv())
+TOKEN = getenv("TOKEN")
 
 bot = TeleBot(TOKEN)
 utils.log_create_file()
