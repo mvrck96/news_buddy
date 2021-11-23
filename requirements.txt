@@ -6,3 +6,4 @@ summa
 gensim==3.8.3
 beautifulsoup4
 psycopg2
+python-dotenv
