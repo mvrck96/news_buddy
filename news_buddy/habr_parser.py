@@ -23,21 +23,38 @@ HUBS = {
     "read": "Читальный зал",
 }
 
+# Читают сейчас
+# https://habr.com/kek/v2/articles/most-reading?fl=ru&hl=ru
+#
+# Новости
+# https://habr.com/kek/v2/news/context?fl=ru&hl=ru&context_hub_alias=itcompanies&extend_context=false&per_page=5&page_num=1
+#
+# Вклвд в хаб
+# https://habr.com/kek/v2/companies/top/by_hub/itcompanies
+
 
 def get_title_and_link(article: str) -> Tuple:
-    link_wrapper = article.find("a", {"class": "tm-article-snippet__title-link"})
+    if article.find("a", {"class": "tm-article-snippet__title-link"}) == None:
+        link_wrapper = article.find(
+            "a", {"class": "tm-megapost-snippet__link tm-megapost-snippet__card"}
+        )
+        title = link_wrapper.find("h2").text
+    else:
+        link_wrapper = article.find("a", {"class": "tm-article-snippet__title-link"})
+        title = link_wrapper.find("span").text
+
     link = URL[:-8] + link_wrapper["href"]
-    title = link_wrapper.find("span").text
     return link, title
 
 
 def parse_habr(top="/top/daily", hubs=HUBS) -> Dict:
     digest = {}
-    for hub in hubs.keys():
+    for hub in HUBS.keys():
         link = URL + hub + top
         page = get(link)
         soup = bs.BeautifulSoup(page.text, "html.parser")
         articles_list = soup.find_all("article", {"class": "tm-articles-list__item"})
+        articles_list = [x for x in articles_list if x != None]
         hub_arts = list(map(get_title_and_link, articles_list))
         if hub_arts:
             digest[hub] = hub_arts
