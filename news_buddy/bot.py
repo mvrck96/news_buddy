@@ -18,7 +18,9 @@ bot = TeleBot(TOKEN)
 utils.log_create_file()
 logger.info("Bot is up !")
 
-time.sleep(3) # wait a liitle just to do not recieve coonection errors. When db is initialising
+time.sleep(
+    3
+)  # wait a liitle just to do not recieve coonection errors. When db is initialising
 conn = utils.db_connect()
 
 
@@ -88,6 +90,18 @@ def tass_live_digest(message) -> None:
     utils.db_write_news(conn, "news_" + source.split(".")[0].lower(), digest)
 
 
+@bot.message_handler(commands=["help", "start"])
+def helping_greeting(message) -> None:
+    user = utils.get_user(message)
+    help_message = """
+    Hi, this is *news buddy*. I can send you news from:\n habr.com, gazeta.ru and rbc.ru\n\n -  To check top daily posts from selected hubs of habr.com \nsend me `/habr`\n-  If you want hot news from rbc.ru send `/rbc`\n-  For top news from gazeta.ru type `/gazeta`
+    """
+    bot.send_message(
+        chat_id=message.chat.id, parse_mode=ParseMode.MARKDOWN, text=help_message
+    )
+    utils.log_help(user)
+
+
 @bot.message_handler(func=utils.check_invalidity)
 def unsupported_reply(message) -> None:
     user = utils.get_user(message)
@@ -97,18 +111,6 @@ def unsupported_reply(message) -> None:
         parse_mode=ParseMode.MARKDOWN,
     )
     utils.log_unsupported(user)
-
-
-@bot.message_handler(commands=["start", "help"])
-def helping_greeting(message) -> None:
-    user = utils.get_user(message)
-    help_message = """
-    Hi, this is *News buddy*. I can send you news from:\n habr.com, gazeta.ru and rbc.ru\n\n -  To check top daily posts from selected hubs of habr.com \nsend me `/habr`\n-  If you want hot news from rbc.ru send `/rbc`\n-  For top news from gazeta.ru type `/gazeta`
-    """
-    bot.send_message(
-        chat_id=message.chat.id, parse_mode=ParseMode.MARKDOWN, text=help_message
-    )
-    utils.log_help(user)
 
 
 bot.polling()

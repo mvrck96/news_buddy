@@ -19,10 +19,8 @@ def get_md_message_unified(name: str, digest: dict) -> str:
 
 
 def check_invalidity(message) -> bool:
-    if str(message) not in COMMANDS:
-        return True
-    else:
-        return False
+    print(message.json['text'])
+    return True if message.json['text'] not in COMMANDS else False
 
 
 def get_user(message: object) -> Dict:
@@ -64,7 +62,7 @@ def db_connect():
         user=getenv("POSTGRES_USER"),
         password=getenv("POSTGRES_PASSWORD"),
         port=getenv("_POSTGRES_PORT"),
-        host="postgres_database", # container name for postgres db, specified in docker-compose
+        host="postgres_database",  # container name for postgres db, specified in docker-compose
     )
     connection.autocommit = True
     logger.info(f"Connection to database opened")
