@@ -6,10 +6,10 @@ from requests import post
 TASS_API_LINK = "https://tass.ru/userApi/getNewsFeed"
 
 
-def get_live_news() -> Dict:
+def get_live_news(url=TASS_API_LINK) -> Dict:
     digest = {}
     news = post(
-        TASS_API_LINK, json={"limit": 15, 'timestamp': round(time.time())}
+        url, json={"limit": 15, 'timestamp': round(time.time())}
     ).json()  # Есть варик регулировать кол-во новостей через параметр limit
     for n in news["newsList"]:
         digest["https://tass.ru" + n["link"]] = n["title"]
