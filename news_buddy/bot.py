@@ -1,12 +1,12 @@
 import time
 from os import getenv
-from dotenv import find_dotenv, load_dotenv
 from loguru import logger
 from telebot import TeleBot
 from telegram import ParseMode
 
-import gazeta_parser
+
 import habr_parser
+import gazeta_parser
 import rbc_parser
 import tass_parser
 import utils
@@ -42,52 +42,33 @@ def habr_digest(message) -> None:
     utils.log_digest(source, user)
 
 
+def send_news(message, source: str, get_news) -> None:
+    user = utils.get_user(message)
+    digest = get_news()
+    post = utils.get_md_message_unified(source, digest)
+    bot.send_message(
+        chat_id=message.chat.id,
+        text=post,
+        parse_mode=ParseMode.MARKDOWN,
+        disable_web_page_preview=True,
+    )
+    utils.log_digest(source, user)
+    utils.db_write_news(conn, "news_" + source.split(".")[0].lower(), digest)
+
+
 @bot.message_handler(commands=["rbc"])
-def rbc_digest(message) -> None:
-    source = "Rbc.ru"
-    user = utils.get_user(message)
-    digest = rbc_parser.get_main_news()
-    post = utils.get_md_message_unified(source, digest)
-    bot.send_message(
-        chat_id=message.chat.id,
-        text=post,
-        parse_mode=ParseMode.MARKDOWN,
-        disable_web_page_preview=True,
-    )
-    utils.log_digest(source, user)
-    utils.db_write_news(conn, "news_" + source.split(".")[0].lower(), digest)
-
-
-@bot.message_handler(commands=["gazeta"])
-def gazeta_digest(message) -> None:
-    source = "Gazeta.ru"
-    user = utils.get_user(message)
-    digest = gazeta_parser.parse_gazeta()
-    post = utils.get_md_message_unified(source, digest)
-    bot.send_message(
-        chat_id=message.chat.id,
-        text=post,
-        parse_mode=ParseMode.MARKDOWN,
-        disable_web_page_preview=True,
-    )
-    utils.log_digest(source, user)
-    utils.db_write_news(conn, "news_" + source.split(".")[0].lower(), digest)
+def send_tass_news(message):
+    send_news(message, source="Rbc.ru", get_news=rbc_parser.get_main_news)
 
 
 @bot.message_handler(commands=["tass"])
-def tass_live_digest(message) -> None:
-    source = "Tass.ru"
-    user = utils.get_user(message)
-    digest = tass_parser.get_live_news()
-    post = utils.get_md_message_unified(source, digest)
-    bot.send_message(
-        chat_id=message.chat.id,
-        text=post,
-        parse_mode=ParseMode.MARKDOWN,
-        disable_web_page_preview=True,
-    )
-    utils.log_digest(source, user)
-    utils.db_write_news(conn, "news_" + source.split(".")[0].lower(), digest)
+def send_tass_news(message):
+    send_news(message, source="Tass.ru", get_news=tass_parser.get_live_news)
+
+
+@bot.message_handler(commands=["gazeta"])
+def send_tass_news(message):
+    send_news(message, source="Gazeta.ru", get_news=gazeta_parser.parse_gazeta)
 
 
 @bot.message_handler(commands=["help", "start"])
