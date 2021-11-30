@@ -15,3 +15,4 @@ docker-compose.debug.yml
 
 parser.py
 .env
+test_*
