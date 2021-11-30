@@ -13,16 +13,15 @@ TABLE = "news_tass"
 
 
 def get_news():
+    # Publish time can be obtained from 'date' field
     digest = {}
     news = post(
         TASS_API_LINK, json={"limit": 15, "timestamp": round(time.time())}
     ).json()
     for n in news["newsList"]:
-        digest["https://tass.ru" + n["link"]] = n["title"]
+        digest["https://tass.ru" + n["link"]] = " ".join([n["title"], n["subtitle"]])
     return digest
 
-
-print(get_news())
 
 with DAG(
     "parse_tass_news",
