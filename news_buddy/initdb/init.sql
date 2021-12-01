@@ -23,9 +23,23 @@ CREATE TABLE IF NOT EXISTS news_gazeta(
   source VARCHAR DEFAULT 'gazeta'
 );
 
+CREATE TABLE IF NOT EXISTS keywords(
+  word varchar,
+  TABLE varchar,
+  time TIMESTAMP
+);
+
 CREATE TABLE IF NOT EXISTS sources(source varchar PRIMARY KEY, link VARCHAR);
 
-insert INTO sources(source, link) values ('tass', 'https://tass.ru/');
-insert INTO sources(source, link) values ('rbc', 'https://www.rbc.ru/');
-insert INTO sources(source, link) values ('gazeta', 'https://www.gazeta.ru/');
-insert INTO sources(source, link) values ('habr', 'https://habr.com/');
+INSERT INTO sources(source, link)
+VALUES ('tass', 'https://tass.ru/');
+
+INSERT INTO sources(source, link)
+VALUES ('rbc', 'https://www.rbc.ru/');
+
+INSERT INTO sources(source, link)
+VALUES ('gazeta', 'https://www.gazeta.ru/');
+
+INSERT INTO sources(source, link)
+VALUES ('habr', 'https://habr.com/');
+
