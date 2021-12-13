@@ -1,4 +1,4 @@
-# News buddy --> live at [@newsbuddy](https://t.me/mvrck_bot)
+# News buddy --> from time to time live at [@newsbuddy](https://t.me/mvrck_bot)
 
 Персональный помошник в мире российского новостного потока. Может присылать последние новости по клику, аггрегировать хабр, скоро будут красивые инфо дашборды и суммаризация
 
