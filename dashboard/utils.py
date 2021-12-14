@@ -10,7 +10,7 @@ def db_connect():
         # password=getenv("POSTGRES_PASSWORD"),
         # port=getenv("_POSTGRES_PORT"),
         # host="postgres_database",  # container name for postgres db, specified in docker-compose
-        dbname="maverick",
+        dbname="newsbuddy",
         user="maverick",
         password="maverick",
         port=5432,
