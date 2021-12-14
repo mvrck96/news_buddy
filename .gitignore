@@ -16,3 +16,5 @@ docker-compose.debug.yml
 parser.py
 .env
 test_*
+
+/airflow/dags/__pycache__
