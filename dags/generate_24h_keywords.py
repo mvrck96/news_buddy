@@ -13,7 +13,8 @@ nltk.download("stopwords")
 from nltk.corpus import stopwords
 from pymystem3 import Mystem
 
-table = "news_tass"
+TABLE = "news_rbc"
+
 
 def get_titles(table: str):
     connection = ps.connect(
@@ -34,22 +35,21 @@ def get_titles(table: str):
         return cur.fetchall()
 
 
-def preprocess_text(text: str) -> str:
-    mystem = Mystem()
-    russian_stopwords = stopwords.words("russian")
-    tokens = mystem.lemmatize(text.lower())
-    tokens = [
-        token
-        for token in tokens
-        if token not in russian_stopwords
-        and token != " "
-        and token.strip() not in punctuation
-    ]
-    text = " ".join(tokens)
-    return text
-
-
 def generate_24h_keywords(ti):
+    def preprocess_text(text: str) -> str:
+        mystem = Mystem()
+        russian_stopwords = stopwords.words("russian")
+        tokens = mystem.lemmatize(text.lower())
+        tokens = [
+            token
+            for token in tokens
+            if token not in russian_stopwords
+            and token != " "
+            and token.strip() not in punctuation
+        ]
+        text = " ".join(tokens)
+        return text
+
     res = []
     sql_res = ti.xcom_pull(task_ids="get_titles")  # list [(a,), (b,), ...]
 
@@ -59,7 +59,7 @@ def generate_24h_keywords(ti):
     extractor = yake.KeywordExtractor(lan="ru", n=1, top=5)
     kw = extractor.extract_keywords(". ".join(pp_titles))
     for k in kw:
-         res.append(k[0])
+        res.append(k[0])
     return res
 
 
@@ -68,9 +68,7 @@ def write_kw(ti, table: str):
     pg_hook = PostgresHook(postgres_conn_id="my_postgres_connection")
     for kw in keywords:
         pg_hook.run(
-            """
-            INSERT INTO keywords (word, table_name, time) VALUES (%s, %s, %s)
-            """,
+            "INSERT INTO keywords (word, table_name, time) VALUES (%s, %s, %s)",
             parameters=(kw, table, datetime.now()),
         )
 
@@ -79,18 +77,21 @@ with DAG(
     "generate_24h_keywoards",
     start_date=datetime(2021, 12, 1),
     catchup=False,
-    schedule_interval="*/30 * * * *"
+    schedule_interval="*/30 * * * *",
 ) as dag:
 
     fetch_titles = PythonOperator(
         task_id="get_titles",
         python_callable=get_titles,
-        op_kwargs={"table": table},
-    )   
+        op_kwargs={"table": TABLE},
+    )
+
     generate_keywords = PythonOperator(
         task_id="genearet_kw", python_callable=generate_24h_keywords
-    )   
+    )
+
     write_keywords = PythonOperator(
-        task_id="write_kw_to_db", python_callable=write_kw, op_kwargs={"table": table}
-    )   
+        task_id="write_kw_to_db", python_callable=write_kw, op_kwargs={"table": TABLE}
+    )
+
     fetch_titles >> generate_keywords >> write_keywords

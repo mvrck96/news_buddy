@@ -26,7 +26,7 @@ def get_old_news(table: str) -> dict:
 
 
 def db_write_only_new(ti, table: str) -> None:
-    pg_hook = PostgresHook(postgres_conn_id="my_local_postgres")
+    pg_hook = PostgresHook(postgres_conn_id="newsbuddy_local_postgres")
     olds = ti.xcom_pull(task_ids="fetch_old_news")
     news = ti.xcom_pull(task_ids="parse_news")
 

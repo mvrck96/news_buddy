@@ -13,7 +13,6 @@ TABLE = "news_tass"
 
 
 def get_news():
-    # Publish time can be obtained from 'date' field
     digest = {}
     news = post(
         TASS_API_LINK, json={"limit": 15, "timestamp": round(time.time())}
